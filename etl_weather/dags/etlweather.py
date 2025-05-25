@@ -2,9 +2,11 @@ from airflow import DAG
 from airflow.providers.http.hooks.http import HttpHook
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.decorators import task
-from airflow.utils.dates import days_ago
+# from airflow.utils.dates import days_ago
 import requests
 import json
+import pendulum
+
 
 
 # Latitude and longitude for the desired location (London in this case)
@@ -16,7 +18,8 @@ API_CONN_ID='open_meteo_api'
 
 default_args={
     'owner':'airflow',
-    'start_date':days_ago(1)
+    'start_date': pendulum.now().subtract(days=1)
+    #'start_date':days_ago(1)
 }
 
 
@@ -114,7 +117,7 @@ with DAG(dag_id='weather_etl_pipeline',
     
 
 #**********************
-#  winget install -e --id Astronomer.Astro
+# winget install -e --id Astronomer.Astro
 # astro dev init
 # astro dev start
 # astro dev restart
