@@ -1,0 +1,70 @@
+ ✅ ETL Pipeline in Airflow: API → Transform → Snowflake
+💡 Tools Used
+Airflow: Orchestration
+
+PythonOperator: To extract/transform
+
+SnowflakeOperator/SnowflakeHook: To load into Snowflake
+
+Snowflake: Final data destination
+
+🔧 Setup Required
+Airflow installed with Snowflake provider:
+
+bash
+Copy code
+pip install apache-airflow-providers-snowflake pandas requests
+Airflow connection to Snowflake:
+
+ID: snowflake_default
+
+Type: Snowflake
+
+Includes: account, user, password, warehouse, database, schema
+ ------------------------------
+ Let's walk through everything you need to build a working Airflow ETL pipeline that:
+
+✅ Extracts real-time crypto data from the CoinGecko API
+✅ Transforms and filters it in Airflow using Pandas
+✅ Loads it into a Snowflake table
+
+✅ Step 1: Requirements
+Install necessary Python packages (if not already):
+
+pip install apache-airflow apache-airflow-providers-snowflake pandas requests
+
+✅ Step 2: Create Table in Snowflake
+Run this SQL in Snowflake to create a destination table:
+
+CREATE TABLE IF NOT EXISTS crypto_prices (
+    id STRING,
+    symbol STRING,
+    current_price FLOAT,
+    market_cap FLOAT,
+    last_updated TIMESTAMP
+);
+
+
+✅Step 3: Create Airflow Connection
+Snowflake connection (ID: snowflake_default):
+Field	Value
+Conn ID	snowflake_default
+Conn Type	Snowflake
+Account	your_account
+User	your_username
+Password	your_password
+Warehouse	your_warehouse
+Database	your_database
+Schema	your_schema
+Role (opt)	your_role
+
+✅ Step 4: Airflow DAG – CoinGecko → Transform → Snowflake
+
+
+To see the file uploaded to Snowflake:
+
+LIST @%crypto_prices;
+
+To see loaded data:
+
+SELECT * FROM crypto_prices ORDER BY last_updated DESC;
