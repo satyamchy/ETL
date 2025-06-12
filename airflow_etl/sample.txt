@@ -1,0 +1,4 @@
+setting up for airflow --->    docker-compose up airflow-init
+run the airflow --->   docker-compose up 
+
+localhost://8080/login
